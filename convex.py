@@ -105,13 +105,14 @@ class Segment(Figure):
                 inters.append(inform)
                 count += 1
         if count == 0:
+            if self.q.is_inside_triangle(triangle) and self.p.is_inside_triangle(triangle):
+                return self.perimeter()
             return 0.0
         elif count == 1:
-            if self.q.point_inside_triangle(triangle):
+            if self.q.is_inside_triangle(triangle):
                 return inters[0].dist(self.q)
             else:
                 return inters[0].dist(self.p)
-
         elif count == 2:
             return inters[0].dist(inters[1])
 
@@ -137,6 +138,8 @@ class Polygon(Figure):
             self.points.push_first(c)
         self._perimeter = a.dist(b) + b.dist(c) + c.dist(a)
         self._area = abs(R2Point.area(a, b, c))
+        self._partial_perimeter = 0
+
 
     def perimeter(self):
         return self._perimeter
@@ -161,12 +164,14 @@ class Polygon(Figure):
             self._area += abs(R2Point.area(t,
                                            self.points.last(),
                                            self.points.first()))
-
+            self._partial_perimeter -= Segment(self.points.first(), self.points.last()).partial_perimeter(self.triangle)
+            
             # удаление освещённых рёбер из начала дека
             p = self.points.pop_first()
             while t.is_light(p, self.points.first()):
                 self._perimeter -= p.dist(self.points.first())
                 self._area += abs(R2Point.area(t, p, self.points.first()))
+                self._partial_perimeter -= Segment(p, self.points.first()).partial_perimeter(self.triangle)
                 p = self.points.pop_first()
             self.points.push_first(p)
 
@@ -175,18 +180,36 @@ class Polygon(Figure):
             while t.is_light(self.points.last(), p):
                 self._perimeter -= p.dist(self.points.last())
                 self._area += abs(R2Point.area(t, p, self.points.last()))
+                self._partial_perimeter -= Segment(p, self.points.last()).partial_perimeter(self.triangle)
                 p = self.points.pop_last()
             self.points.push_last(p)
 
             # добавление двух новых рёбер
             self._perimeter += t.dist(self.points.first()) + \
                 t.dist(self.points.last())
+            self._partial_perimeter += \
+                (Segment(t, self.points.first()).partial_perimeter(self.triangle) + \
+                Segment(t, self.points.last()).partial_perimeter(self.triangle))
             self.points.push_first(t)
 
         return self
 
     def __getitem__(self, key):
         return self.points.array[key]
+
+
+    def partial_perimeter(self, triangle):
+        self.triangle = triangle
+        if len(self.points.array) > 3:
+            return self._partial_perimeter;
+        self.triangle = triangle
+        self._partial_perimeter = 0
+        self.segs = [Segment(self[0], self[1]), 
+                     Segment(self[1], self[2]), 
+                     Segment(self[0], self[2])]
+        for seg in self.segs:
+            self._partial_perimeter += seg.partial_perimeter(triangle)
+        return self._partial_perimeter
 
 
 if __name__ == "__main__":
