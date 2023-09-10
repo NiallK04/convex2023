@@ -28,16 +28,18 @@ setattr(Segment, 'draw', segment_draw)
 setattr(Polygon, 'draw', polygon_draw)
 
 
+triangle = Polygon(R2Point(1,0), R2Point(-1, 0), R2Point(0, 1))
+
 tk = TkDrawer()
 f = Void()
 tk.clean()
-
 try:
     while True:
+        triangle.draw(tk)
         f = f.add(R2Point())
         tk.clean()
         f.draw(tk)
-        print(f"S = {f.area()}, P = {f.perimeter()}\n")
+        print(f"S = {f.area()}, P = {f.perimeter()}, Partial perimeter P = {f.partial_perimeter(triangle)}\n")
 except(EOFError, KeyboardInterrupt):
     print("\nStop")
     tk.close()

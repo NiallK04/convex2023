@@ -44,6 +44,28 @@ class R2Point:
             return self.x == other.x and self.y == other.y
         return False
 
+    def point_inside_triangle(self, triangle):
+        a, b, c = triangle[0], triangle[1], triangle[2]
+        # Use the algorithm to determine the orientation of the points
+        orientation1 = self.orientation(a, b, self)
+        orientation2 = self.orientation(b, c, self)
+        orientation3 = self.orientation(c, a, self)
+        # If all orientations are the same, the point lies inside the triangle
+        if orientation1 == orientation2 == orientation3:
+            return True
+        else:
+            return False
+
+    def orientation(self, p, q, r):
+        # Calculate the orientation of three points using determinant
+        val = (q.y - p.y) * (r.x - q.x) - (q.x - p.x) * (r.y - q.y)
+        if val == 0:
+            return 0  # Collinear
+        elif val > 0:
+            return 1  # Clockwise orientation
+        else:
+            return 2  # Counterclockwise orientation
+
 
 if __name__ == "__main__":
     x = R2Point(1.0, 1.0)
