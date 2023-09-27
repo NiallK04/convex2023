@@ -27,8 +27,8 @@ setattr(Point, 'draw', point_draw)
 setattr(Segment, 'draw', segment_draw)
 setattr(Polygon, 'draw', polygon_draw)
 
-print("Enter")
-triangle = Polygon(R2Point(2, 0), R2Point(0, 2), R2Point(-2, 0))
+print("Enter points of triangle")
+triangle = Polygon(R2Point(), R2Point(), R2Point())
 
 tk = TkDrawer()
 f = Void()

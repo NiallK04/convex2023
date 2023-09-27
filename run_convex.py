@@ -4,7 +4,7 @@ from convex import Void
 
 f = Void()
 
-print("¬ведите три точки треугольника:")
+print("Enter points of triangle")
 triangle = Polygon(R2Point(), R2Point(), R2Point())
 
 try:
