@@ -1,3 +1,4 @@
+from functools import partial
 from pytest import approx
 from math import sqrt
 from r2point import R2Point
@@ -30,6 +31,11 @@ class TestVoid:
     def test_add(self):
         assert isinstance(self.f.add(R2Point(0.0, 0.0)), Point)
 
+    def test_part(self):
+        assert self.f.partial_perimeter() == 0.0
+
+
+
 
 class TestPoint:
 
@@ -61,11 +67,15 @@ class TestPoint:
     def test_add2(self):
         assert isinstance(self.f.add(R2Point(1.0, 0.0)), Segment)
 
+    def test_part(self):
+        assert self.f.partial_perimeter() == 0.0
 
-class TestSegment:
+
+class TestSegment1:
 
     # Инициализация (выполняется для каждого из тестов класса)
     def setup_method(self):
+        self.triangle = Polygon(R2Point(2, 0), R2Point(0, 2), R2Point(-2, 0))
         self.f = Segment(R2Point(0.0, 0.0), R2Point(1.0, 0.0))
 
     # Двуугольник является фигурой
@@ -95,6 +105,41 @@ class TestSegment:
     # При добавлении точки двуугольник может превратиться в треугольник
     def test_add2(self):
         assert isinstance(self.f.add(R2Point(0.0, 1.0)), Polygon)
+
+    def test_part1(self):
+        
+        assert self.f.partial_perimeter(self.triangle) == self.f.perimeter()
+
+      
+class TestSegment2:
+    def setup_method(self):
+        self.triangle = Polygon(R2Point(2, 0), R2Point(0, 2), R2Point(-2, 0))
+        self.f = Segment(R2Point(0.0, 0.0), R2Point(1.0, 1.0))
+    def test_part(self):
+        assert self.f.partial_perimeter(self.triangle) == approx(2*sqrt(2))
+
+
+class TestSegment3:
+    def setup_method(self):
+        self.triangle = Polygon(R2Point(2, 0), R2Point(0, 2), R2Point(-2, 0))
+        self.f = Segment(R2Point(0.0, 0.0), R2Point(1.0, -1.0))
+    def test_part(self):
+        assert self.f.partial_perimeter(self.triangle) == 0.0
+
+class TestSegment4:
+    def setup_method(self):
+        self.triangle = Polygon(R2Point(2, 0), R2Point(0, 2), R2Point(-2, 0))
+        self.f = Segment(R2Point(1.0, 1.0), R2Point(1.0, 1.0))
+    def test_part(self):
+        assert self.f.partial_perimeter(self.triangle) == self.f.perimeter()
+        
+
+
+
+
+
+
+
 
 
 class TestPolygon:
@@ -162,3 +207,38 @@ class TestPolygon:
 
     def test_area2(self):
         assert self.f.add(R2Point(1.0, 1.0)).area() == approx(1.0)
+
+
+class TestPolygon1:
+    def setup_method(self):
+        self.triangle = Polygon(R2Point(2, 0), R2Point(0, 2), R2Point(-2, 0))
+        self.f = Polygon(
+            R2Point(
+                0.0, 0.0), R2Point(
+                -1.0, -1.0), R2Point(
+                1.0, -1.0))
+    def test_part1(self):
+        assert self.f.partial_perimeter(self.triangle) == 0.0
+
+
+class TestPolygon2:
+    def setup_method(self):
+        self.triangle = Polygon(R2Point(2, 0), R2Point(0, 2), R2Point(-2, 0))
+        self.f = Polygon(
+            R2Point(
+                1.0, 1.0), R2Point(
+                -1.0, 1.0), R2Point(
+                0.0, 0.0))
+    def test_part1(self):
+        assert self.f.partial_perimeter(self.triangle) == self.f.perimeter()
+
+class TestPolygon3:
+    def setup_method(self):
+        self.triangle = Polygon(R2Point(2, 0), R2Point(0, 2), R2Point(-2, 0))
+        self.f = Polygon(
+            R2Point(
+                -1.0, -1.0), R2Point(
+                1.0, -1.0), R2Point(
+                1.0, 1.0))
+    def test_part1(self):
+        assert self.f.partial_perimeter(self.triangle) == approx(sqrt(2) + 1)

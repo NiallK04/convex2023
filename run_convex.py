@@ -10,7 +10,8 @@ triangle = Polygon(R2Point(), R2Point(), R2Point())
 try:
     while True:
         f = f.add(R2Point())
-        print(f"S = {f.area()}, P = {f.perimeter()}, Partial perimeter P = {f.partial_perimeter(triangle)}\n")
+        print(
+            f"S = {f.area()}, P = {f.perimeter()}, Partial perimeter P = {f.partial_perimeter(triangle)}\n")
         print()
 except(EOFError, KeyboardInterrupt):
     print("\nStop")

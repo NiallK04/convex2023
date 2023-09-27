@@ -52,8 +52,6 @@ class R2Point:
         area3 = abs(self.area(self, a, c))
         return base_area == area1 + area2 + area3
 
-    
-
 
 if __name__ == "__main__":
     x = R2Point(1.0, 1.0)

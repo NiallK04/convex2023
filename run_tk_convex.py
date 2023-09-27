@@ -39,7 +39,8 @@ try:
         f = f.add(R2Point())
         tk.clean()
         f.draw(tk)
-        print(f"S = {f.area()}, P = {f.perimeter()}, Partial perimeter P = {f.partial_perimeter(triangle)}\n")
+        print(
+            f"S = {f.area()}, P = {f.perimeter()}, Partial perimeter P = {f.partial_perimeter(triangle)}\n")
 except(EOFError, KeyboardInterrupt):
     print("\nStop")
     tk.close()
