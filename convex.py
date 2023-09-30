@@ -181,7 +181,7 @@ class Polygon(Figure):
             self._partial_perimeter -= Segment(
                 self.points.first(),
                 self.points.last()).partial_perimeter(
-                self.triangle)
+                self.triangle) / 2
 
             # удаление освещённых рёбер из начала дека
             p = self.points.pop_first()
@@ -190,7 +190,7 @@ class Polygon(Figure):
                 self._area += abs(R2Point.area(t, p, self.points.first()))
                 self._partial_perimeter -= Segment(
                     p, self.points.first()).partial_perimeter(
-                    self.triangle)
+                    self.triangle) / 2
                 p = self.points.pop_first()
             self.points.push_first(p)
 
@@ -201,7 +201,7 @@ class Polygon(Figure):
                 self._area += abs(R2Point.area(t, p, self.points.last()))
                 self._partial_perimeter -= Segment(
                     p, self.points.last()).partial_perimeter(
-                    self.triangle)
+                    self.triangle) / 2
                 p = self.points.pop_last()
             self.points.push_last(p)
 
@@ -211,7 +211,7 @@ class Polygon(Figure):
 
             self._partial_perimeter += \
                 (Segment(t, self.points.first()).partial_perimeter(self.triangle) +
-                 Segment(t, self.points.last()).partial_perimeter(self.triangle))
+                 Segment(t, self.points.last()).partial_perimeter(self.triangle)) / 2
             self.points.push_first(t)
 
         return self
@@ -230,6 +230,10 @@ class Polygon(Figure):
                      Segment(self[0], self[2])]
         for seg in self.segs:
             self._partial_perimeter += seg.partial_perimeter(triangle) / 2
+#        if math.isclose(self._partial_perimeter, 0.0, abs_tol=1e-16):
+#           self._partial_perimeter = 0
+        if abs(self._partial_perimeter) < 0.0000000001:
+            self._partial_perimeter = 0.0
         return self._partial_perimeter
 
 

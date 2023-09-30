@@ -107,10 +107,10 @@ class TestSegment1:
         assert isinstance(self.f.add(R2Point(0.0, 1.0)), Polygon)
 
     def test_part1(self):
-        
+
         assert self.f.partial_perimeter(self.triangle) == self.f.perimeter()
 
-      
+
 class TestSegment2:
     def setup_method(self):
         self.triangle = Polygon(R2Point(2, 0), R2Point(0, 2), R2Point(-2, 0))
@@ -132,7 +132,7 @@ class TestSegment4:
         self.f = Segment(R2Point(1.0, 1.0), R2Point(1.0, 1.0))
     def test_part(self):
         assert self.f.partial_perimeter(self.triangle) == self.f.perimeter()
-        
+
 
 
 
@@ -242,3 +242,15 @@ class TestPolygon3:
                 1.0, 1.0))
     def test_part1(self):
         assert self.f.partial_perimeter(self.triangle) == approx(sqrt(2) + 1)
+
+
+class TestPolygon4:
+    def setup_method(self):
+        self.triangle = Polygon(R2Point(2, 0), R2Point(0, 2), R2Point(-2, 0))
+        self.f = Polygon(
+            R2Point(
+                5.0, 5.0), R2Point(
+                5.0, -5.0), R2Point(
+                -10.0, 0.0))
+    def test_part1(self):
+        assert self.f.partial_perimeter(self.triangle) == 0.0
