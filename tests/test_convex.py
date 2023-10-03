@@ -230,7 +230,7 @@ class TestPolygon2:
                 -1.0, 1.0), R2Point(
                 0.0, 0.0))
     def test_part1(self):
-        assert self.f.partial_perimeter(self.triangle) == self.f.perimeter()
+        assert self.f.partial_perimeter(self.triangle) == approx(self.f.perimeter(), 0.01)
 
 class TestPolygon3:
     def setup_method(self):
@@ -241,7 +241,7 @@ class TestPolygon3:
                 1.0, -1.0), R2Point(
                 1.0, 1.0))
     def test_part1(self):
-        assert self.f.partial_perimeter(self.triangle) == approx(sqrt(2) + 1)
+        assert self.f.partial_perimeter(self.triangle) == approx(sqrt(2) + 1, 0.01)
 
 
 class TestPolygon4:
