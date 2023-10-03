@@ -1,6 +1,6 @@
 #!/usr/bin/env -S python3 -B
 from r2point import R2Point
-from convex import Void
+from convex import Void, Polygon
 
 f = Void()
 

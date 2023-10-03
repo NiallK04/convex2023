@@ -223,7 +223,7 @@ class Polygon(Figure):
         self.flag_ = True
         self.triangle = triangle
         if len(self.points.array) > 3:
-            return self._partial_perimeter
+            return round(self._partial_perimeter, 4)
         self._partial_perimeter = 0
         self.segs = [Segment(self[1], self[0]),
                      Segment(self[1], self[2]),
@@ -232,9 +232,9 @@ class Polygon(Figure):
             self._partial_perimeter += seg.partial_perimeter(triangle) / 2
 #        if math.isclose(self._partial_perimeter, 0.0, abs_tol=1e-16):
 #           self._partial_perimeter = 0
-        if abs(self._partial_perimeter) < 0.0000000001:
-            self._partial_perimeter = 0.0
-        return self._partial_perimeter
+#        if abs(self._partial_perimeter) < 0.0000000001:
+#            self._partial_perimeter = 0.0
+        return round(self._partial_perimeter, 4)
 
 
 if __name__ == "__main__":
