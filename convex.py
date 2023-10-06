@@ -80,14 +80,6 @@ class Segment(Figure):
         det = a1 * b2 - a2 * b1
         if det == 0:
             return None
-        #    if R2Point.is_triangle(R2Point(x1, y1), R2Point(x2, y2), R2Point(x3, y3)):
-        #       return None;
-        #    if max(x1, x2) < min(x3, x4) or max(x3, x4) < min(x1, x2):
-        #        return None
-        #    if max(y1, y2) < min(y3, y4) or max(y3, y4) < min(y1, y2):
-        #        return None
-            # return Segment(R2Point(abs(x3 - x1), abs(y3 - y1)),
-            #              R2Point(abs(x4 - x2), abs(y4 - y2)))
 
         x = (b1 * c2 - b2 * c1) / det
         y = (a2 * c1 - a1 * c2) / det
@@ -102,7 +94,6 @@ class Segment(Figure):
         return None  # Точка пересечения лежит вне отрезков
 
     def partial_perimeter(self, triangle):
-      #  flag = False
         a, b, c = triangle[0], triangle[1], triangle[2]
         segs = [Segment(a, b), Segment(b, c), Segment(a, c)]
         inters = []
@@ -111,12 +102,8 @@ class Segment(Figure):
             inform = self.intersection(i)
             if inform is not None and inform not in inters:
                 inters.append(inform)
-             #   if type(inform).__name__ == 'Segment':
-             #      base_seg = inform
                 count += 1
 
-       # if flag:
-       #    return base_seg.perimeter()
         if count == 0:
             if self.q.is_inside_triangle(
                     triangle) and self.p.is_inside_triangle(triangle):
@@ -129,8 +116,8 @@ class Segment(Figure):
                 return inters[0].dist(self.p)
         elif count == 2:
             return 2 * inters[0].dist(inters[1])
-        elif flag:
-            return base_seg.perimeter()
+#       elif flag:
+#           return base_seg.perimeter()
 
 
 class Polygon(Figure):
@@ -210,8 +197,10 @@ class Polygon(Figure):
                 t.dist(self.points.last())
 
             self._partial_perimeter += \
-                (Segment(t, self.points.first()).partial_perimeter(self.triangle) +
-                 Segment(t, self.points.last()).partial_perimeter(self.triangle)) / 2
+                (Segment(t,
+                         self.points.first()).partial_perimeter(self.triangle)
+                 + Segment(t,
+                 self.points.last()).partial_perimeter(self.triangle)) / 2
             self.points.push_first(t)
 
         return self
@@ -220,16 +209,14 @@ class Polygon(Figure):
         return self.points.array[key]
 
     def partial_perimeter(self, triangle):
-        self.flag_ = True
-        self.triangle = triangle
-        if len(self.points.array) > 3:
-            return round(self._partial_perimeter, 4)
-        self._partial_perimeter = 0
-        self.segs = [Segment(self[1], self[0]),
-                     Segment(self[1], self[2]),
-                     Segment(self[0], self[2])]
-        for seg in self.segs:
-            self._partial_perimeter += seg.partial_perimeter(triangle) / 2
+        if len(self.points.array) == 3:
+            self.triangle = triangle
+            self._partial_perimeter = 0
+            self.segs = [Segment(self[1], self[0]),
+                         Segment(self[1], self[2]),
+                         Segment(self[0], self[2])]
+            for seg in self.segs:
+                self._partial_perimeter += seg.partial_perimeter(triangle) / 2
 #        if math.isclose(self._partial_perimeter, 0.0, abs_tol=1e-16):
 #           self._partial_perimeter = 0
 #        if abs(self._partial_perimeter) < 0.0000000001:

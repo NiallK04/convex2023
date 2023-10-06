@@ -35,6 +35,22 @@ class TestVoid:
         assert self.f.partial_perimeter() == 0.0
 
 
+class TestIntersection1:
+    def setup_method(self):
+        self.seg1 = Segment(R2Point(0, 0), R2Point(1, 1))
+        self.seg2 = Segment(R2Point(1, 1), R2Point(0, 2))
+
+    def test_intersec(self):
+        assert self.seg1.intersection(self.seg2) == R2Point(1, 1)
+
+
+class TestIntersection2:
+    def setup_method(self):
+        self.seg1 = Segment(R2Point(0, 0), R2Point(1, 1))
+        self.seg2 = Segment(R2Point(-1, 0), R2Point(0, 0))
+
+    def test_intersec(self):
+        assert self.seg1.intersection(self.seg2) == R2Point(0, 0)
 
 
 class TestPoint:
@@ -115,31 +131,36 @@ class TestSegment2:
     def setup_method(self):
         self.triangle = Polygon(R2Point(2, 0), R2Point(0, 2), R2Point(-2, 0))
         self.f = Segment(R2Point(0.0, 0.0), R2Point(1.0, 1.0))
+
     def test_part(self):
-        assert self.f.partial_perimeter(self.triangle) == approx(2*sqrt(2))
+        assert self.f.partial_perimeter(self.triangle) == approx(2 * sqrt(2))
 
 
 class TestSegment3:
     def setup_method(self):
         self.triangle = Polygon(R2Point(2, 0), R2Point(0, 2), R2Point(-2, 0))
         self.f = Segment(R2Point(0.0, 0.0), R2Point(1.0, -1.0))
+
     def test_part(self):
         assert self.f.partial_perimeter(self.triangle) == 0.0
+
 
 class TestSegment4:
     def setup_method(self):
         self.triangle = Polygon(R2Point(2, 0), R2Point(0, 2), R2Point(-2, 0))
         self.f = Segment(R2Point(1.0, 1.0), R2Point(1.0, 1.0))
+
     def test_part(self):
         assert self.f.partial_perimeter(self.triangle) == self.f.perimeter()
 
 
+class TestSegment5:
+    def setup_method(self):
+        self.triangle = Polygon(R2Point(2, 0), R2Point(0, 2), R2Point(-2, 0))
+        self.f = Segment(R2Point(2.0, 0.0), R2Point(-1.0, -1.0))
 
-
-
-
-
-
+    def test_part(self):
+        assert self.f.partial_perimeter(self.triangle) == 0.0
 
 
 class TestPolygon:
@@ -217,6 +238,7 @@ class TestPolygon1:
                 0.0, 0.0), R2Point(
                 -1.0, -1.0), R2Point(
                 1.0, -1.0))
+
     def test_part1(self):
         assert self.f.partial_perimeter(self.triangle) == 0.0
 
@@ -229,8 +251,12 @@ class TestPolygon2:
                 1.0, 1.0), R2Point(
                 -1.0, 1.0), R2Point(
                 0.0, 0.0))
+
     def test_part1(self):
-        assert self.f.partial_perimeter(self.triangle) == approx(self.f.perimeter(), 0.001)
+        assert self.f.partial_perimeter(
+            self.triangle) == approx(
+            self.f.perimeter(), 0.001)
+
 
 class TestPolygon3:
     def setup_method(self):
@@ -240,8 +266,11 @@ class TestPolygon3:
                 -1.0, -1.0), R2Point(
                 1.0, -1.0), R2Point(
                 1.0, 1.0))
+
     def test_part1(self):
-        assert self.f.partial_perimeter(self.triangle) == approx(sqrt(2) + 1, 0.001)
+        assert self.f.partial_perimeter(
+            self.triangle) == approx(
+            sqrt(2) + 1, 0.001)
 
 
 class TestPolygon4:
@@ -252,5 +281,6 @@ class TestPolygon4:
                 5.0, 5.0), R2Point(
                 5.0, -5.0), R2Point(
                 -10.0, 0.0))
+
     def test_part1(self):
         assert self.f.partial_perimeter(self.triangle) == 0.0
