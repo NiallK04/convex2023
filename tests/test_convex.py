@@ -1,4 +1,3 @@
-from functools import partial
 from pytest import approx
 from math import sqrt
 from r2point import R2Point
@@ -35,6 +34,7 @@ class TestVoid:
         assert self.f.partial_perimeter() == 0.0
 
 
+<<<<<<< HEAD
 class TestIntersection1:
     def setup_method(self):
         self.seg1 = Segment(R2Point(0, 0), R2Point(1, 1))
@@ -53,6 +53,8 @@ class TestIntersection2:
         assert self.seg1.intersection(self.seg2) == R2Point(0, 0)
 
 
+=======
+>>>>>>> 9d82e322e9ca2e0385939c3ad2c04dfe4860bb0c
 class TestPoint:
 
     # Инициализация (выполняется для каждого из тестов класса)
@@ -157,8 +159,22 @@ class TestSegment4:
 class TestSegment5:
     def setup_method(self):
         self.triangle = Polygon(R2Point(2, 0), R2Point(0, 2), R2Point(-2, 0))
+<<<<<<< HEAD
         self.f = Segment(R2Point(2.0, 0.0), R2Point(-1.0, -1.0))
 
+=======
+        self.f = Segment(R2Point(-1.0, -1.0), R2Point(2.0, 0.0))
+
+    def test_part(self):
+        assert self.f.partial_perimeter(self.triangle) == 0.0
+
+
+class TestSegment6:
+    def setup_method(self):
+        self.triangle = Polygon(R2Point(2, 0), R2Point(0, 2), R2Point(-2, 0))
+        self.f = Segment(R2Point(0.0, 2.0), R2Point(3.0, 3.0))
+
+>>>>>>> 9d82e322e9ca2e0385939c3ad2c04dfe4860bb0c
     def test_part(self):
         assert self.f.partial_perimeter(self.triangle) == 0.0
 
@@ -284,3 +300,23 @@ class TestPolygon4:
 
     def test_part1(self):
         assert self.f.partial_perimeter(self.triangle) == 0.0
+
+
+class TestPolygon5:
+    def setup_method(self):
+        self.triangle = Polygon(R2Point(2, 0), R2Point(0, 2), R2Point(-2, 0))
+        self.f = Polygon(
+            R2Point(
+                1.0, -1.0), R2Point(
+                3.0, 0.0), R2Point(
+                -1.0, 1.0))
+
+    def test_part1(self):
+        assert self.f.add(
+            R2Point(
+                1.0, 4.0)).partial_perimeter(
+            self.triangle) != 0
+
+    def test_part2(self):
+        assert self.f.add(R2Point(1.0, 4.0)).add(
+            R2Point(-10.0, -10.0)).partial_perimeter(self.triangle) == 0
